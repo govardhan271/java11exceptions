@@ -1,0 +1,31 @@
+Step1: start zookeeper
+Step2: start broker
+step3: create topic
+step4: start producer and produce messages
+step5: start consumer and consume messages
+step6: start producer and produce messages with key
+step7: start consumer and consume messages with key
+step8: check topics, __consumer_offsets is created by kafka
+step9: check consumer groups
+step10: consume messages with consumer groups
+
+step1: .\zookeeper-server-start.bat ..\..\config\zookeeper.properties
+step2: .\kafka-server-start.bat ..\..\config\server.properties
+step3: .\kafka-topics.bat --create --topic test-topic --replication-factor 1 --partitions 4 --bootstrap-server localhost:9092
+step4: .\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic test-topic 
+step5: .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test-topic --from-beginning
+step6: .\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic test-topic --property "key.separator=-" --property "parse.key=true"
+step7: .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test-topic --from-beginning -property "key.separator= - " --property "print.key=true"
+step8: .\kafka-topics.bat --bootstrap-server localhost:9092 --list
+step9: .\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --list
+step10: .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test-topic --group <group-name>
+
+Additional Knowledge:
+create a Jar -> maven build clean install
+Run a Jar file -> java -jar *.jar
+Run a Jar file specifying port -> java -jar *.jar -Dserver.port=8082
+
+Tips:
+Before starting Kafka server(Broker) make below changes
+listeners=PLAINTEXT://localhost:9092
+auto.create.topics.enable=false
